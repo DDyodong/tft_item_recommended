@@ -1,25 +1,26 @@
 import requests, time
 from collections import defaultdict
+from django.conf import settings
 
 class TFTAnalyzer:
     def __init__(self, api_key):
         self.api_key = api_key
-        self.headers = {'X-Riot-Token': api_key}
+        self.headers = {'X-Riot-Token': self.api_key}
 
     def get_summoner_info(self):
-        url = "https://kr.api.riotgames.com/tft/league/v1/challenger" # 챌린저 티어 소환사 정보 가져오기
+        url = f"{settings.RIOT_API_BASE_URL}/tft/league/v1/challenger" # 챌린저 티어 소환사 정보 가져오기
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         return response.json()['entries']
     
     def get_match_ids(self, puuid, count=20):
-        url = f"https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/{puuid}/ids?count={count}" # 매치 ID 리스트 가져오기
+        url = f"{settings.RIOT_API_BASE_URL}/tft/match/v1/matches/by-puuid/{puuid}/ids?count={count}" # 매치 ID 리스트 가져오기
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         return response.json()
 
     def get_match_detail(self, match_id):
-        url = f"https://asia.api.riotgames.com/tft/match/v1/matches/{match_id}"
+        url = f"{settings.RIOT_API_BASE_URL}/tft/match/v1/matches/{match_id}"
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         time.sleep(0.1) # API 호출 제한을 피하기 위해 잠시 대기
