@@ -1,3 +1,11 @@
+// 라이엇 ddragon 연결 
+const TFT_CDN = {
+    version = '16.3.1',
+    champion : (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-champion/${id}.png`,
+    item: (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-item/${id}.png`
+}
+
+// 26.02.05  -> 이거 티어, 설명은 필요 없고 어떤 챔피언이 있는지만 대충 하면 될듯. api에서 불러오는걸로
 const metaDecks = [
     {
         name: "소환사 덱",
@@ -76,7 +84,6 @@ const allItems = [
 
 let currentDeck = null;
 let championItems = {};
-let presets = JSON.parse(localStorage.getItem('tftPresets')) || [];
 
 function renderMetaDecks() {
     const container = document.getElementById('metaDecks');
@@ -204,65 +211,7 @@ function removeItem(champIndex, itemIndex) {
     renderChampions();
 }
 
-function savePreset() {
-    const name = document.getElementById('presetName').value.trim();
-    if (!name) {
-        alert('프리셋 이름을 입력해주세요!');
-        return;
-    }
-    
-    if (currentDeck === null) {
-        alert('덱을 먼저 선택해주세요!');
-        return;
-    }
-    
-    const preset = {
-        name: name,
-        deckIndex: currentDeck,
-        championItems: JSON.parse(JSON.stringify(championItems)),
-        timestamp: new Date().toISOString()
-    };
-    
-    presets.push(preset);
-    localStorage.setItem('tftPresets', JSON.stringify(presets));
-    document.getElementById('presetName').value = '';
-    renderPresets();
-    alert('프리셋이 저장되었습니다!');
-}
 
-function loadPreset(index) {
-    const preset = presets[index];
-    currentDeck = preset.deckIndex;
-    championItems = JSON.parse(JSON.stringify(preset.championItems));
-    renderMetaDecks();
-    renderChampions();
-    renderItems();
-    document.getElementById('championsSection').style.display = 'block';
-}
-
-function deletePreset(index, event) {
-    event.stopPropagation();
-    if (confirm('이 프리셋을 삭제하시겠습니까?')) {
-        presets.splice(index, 1);
-        localStorage.setItem('tftPresets', JSON.stringify(presets));
-        renderPresets();
-    }
-}
-
-function renderPresets() {
-    const container = document.getElementById('presetList');
-    if (presets.length === 0) {
-        container.innerHTML = '<span style="color: #999;">저장된 프리셋이 없습니다</span>';
-        return;
-    }
-    
-    container.innerHTML = presets.map((preset, index) => `
-        <div class="preset-item" onclick="loadPreset(${index})">
-            <span>${preset.name}</span>
-            <button class="delete-btn" onclick="deletePreset(${index}, event)">×</button>
-        </div>
-    `).join('');
-}
 
 function clearAll() {
     if (confirm('모든 설정을 초기화하시겠습니까?')) {
@@ -286,4 +235,3 @@ document.addEventListener('dragend', (e) => {
 // 페이지 로드시 초기화
 renderMetaDecks();
 renderItems();
-renderPresets();
