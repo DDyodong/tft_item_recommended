@@ -1,50 +1,52 @@
 // 라이엇 ddragon 연결 
 const TFT_CDN = {
-    version = '16.3.1',
+    version : '16.3.1',
     champion : (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-champion/${id}.png`,
     item: (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-item/${id}.png`
 }
 
 // 26.02.05  -> 이거 티어, 설명은 필요 없고 어떤 챔피언이 있는지만 대충 하면 될듯. api에서 불러오는걸로
 const metaDecks = [
-    {
+    /*{
         name: "소환사 덱",
-        tier: "S",
-        description: "강력한 소환수로 적을 압도하는 조합",
         champions: ["🧙‍♂️ 룰루", "🐉 노라", "🌟 신드라", "⚡ 리산드라", "🔮 오리아나"],
+        recommendedItems: ["구인수", "주문력 검", "모렐로", "아이오니아 불꽃", "대천사의 지팡이", "쇼진의 창"]
+    },*/
+    {
+        name: "공허 카이사 덱",
+        champions: [
+            { id: "TFT16_Kaisa", name: "카이사"},
+            { id:" TFT16_Bel'beth", name: "벨베스"},
+            { id:"TFT16_"}
+        ],
         recommendedItems: ["구인수", "주문력 검", "모렐로", "아이오니아 불꽃", "대천사의 지팡이", "쇼진의 창"]
     },
     {
         name: "브루저 덱",
-        tier: "S",
         description: "높은 생존력과 지속 딜을 갖춘 조합",
         champions: ["⚔️ 가렌", "🛡️ 세주아니", "🔨 바이", "💪 올라프", "🌊 일라오이"],
         recommendedItems: ["워모그", "가시갑옷", "태양불꽃", "거인학살자", "스테락의 도전", "타이탄의 결의"]
     },
     {
         name: "암살자 덱",
-        tier: "A",
         description: "빠른 기동성과 폭발적인 딜로 후방 킬",
         champions: ["🗡️ 카타리나", "⚡ 제드", "🌙 아칼리", "💀 카직스", "🎭 샤코"],
         recommendedItems: ["무한의 대검", "최후의 속삭임", "피바라기", "헤르메스의 발걸음", "밤의 끝자락", "수호 천사"]
     },
     {
         name: "저격수 덱",
-        tier: "A",
         description: "원거리에서 안정적인 딜을 넣는 조합",
         champions: ["🏹 애쉬", "🎯 징크스", "⚡ 트위치", "🔫 케이틀린", "🌟 이즈리얼"],
         recommendedItems: ["거인학살자", "루난의 허리케인", "속삭임", "도적의 장갑", "거대한 구슬", "구인수"]
     },
     {
         name: "탱커 덱",
-        tier: "B",
         description: "최전방에서 딜을 받아주는 철벽 수비",
         champions: ["🛡️ 쉔", "⚓ 브라움", "🌳 마오카이", "🔥 잭스", "💎 말파이트"],
         recommendedItems: ["워모그", "가시갑옷", "태양불꽃", "용의 발톱", "얼어붙은 심장", "가고일 돌갑옷"]
     },
     {
         name: "마법사 덱",
-        tier: "S",
         description: "강력한 마법 폭딜로 적을 녹이는 조합",
         champions: ["🔥 베이가", "❄️ 애니비아", "⚡ 빅토르", "🌟 라이즈", "💜 신드라"],
         recommendedItems: ["라바돈의 죽음모자", "주문력 검", "아이오니아 불꽃", "모렐로", "대천사", "쇼진"]
@@ -89,9 +91,7 @@ function renderMetaDecks() {
     const container = document.getElementById('metaDecks');
     container.innerHTML = metaDecks.map((deck, index) => `
         <div class="deck-card ${currentDeck === index ? 'active' : ''}" onclick="selectDeck(${index})">
-            <span class="tier ${deck.tier}">티어 ${deck.tier}</span>
             <h3>${deck.name}</h3>
-            <p>${deck.description}</p>
             <div style="margin-top: 10px;">
                 <strong>추천 챔피언:</strong><br>
                 ${deck.champions.join(', ')}
@@ -110,43 +110,34 @@ function selectDeck(index) {
 }
 
 function renderChampions() {
-    if (currentDeck === null) return;
-    
-    const deck = metaDecks[currentDeck];
-    const container = document.getElementById('championGrid');
-    
-    container.innerHTML = deck.champions.map((champ, index) => `
-        <div class="champion">
-            <div class="champion-icon">${champ.split(' ')[0]}</div>
-            <div>${champ.split(' ')[1]}</div>
-            <div class="champion-items" id="champion-${index}" 
-                 ondrop="drop(event, ${index})" 
-                 ondragover="allowDrop(event)">
-                ${renderChampionItems(index)}
-            </div>
-        </div>
-    `).join('');
+  // 기존: <div class="champion-icon">${champ.split(' ')[0]}</div>
+  
+  // ✅ 변경:
+  container.innerHTML = deck.champions.map((champ, index) => `
+    <div class="champion">
+      <img src="${TFT_CDN.champion(champ.id)}" 
+           alt="${champ.name}"
+           class="champion-icon"
+           onerror="this.src='placeholder.png'">  <!-- 이미지 로드 실패 시 -->
+      <div>${champ.name}</div>
+      ...
+    </div>
+  `);
 }
 
-function renderChampionItems(champIndex) {
-    const items = championItems[champIndex] || [];
-    let html = '';
-    
-    for (let i = 0; i < 3; i++) {
-        if (items[i]) {
-            const item = allItems.find(it => it.name === items[i]);
-            html += `
-                <div class="equipped-item">
-                    ${item.icon}
-                    <button class="remove-btn" onclick="removeItem(${champIndex}, ${i})">×</button>
-                </div>
-            `;
-        } else {
-            html += `<div class="item-slot"></div>`;
-        }
-    }
-    
-    return html;
+
+function renderChampionItems() {
+    //<img src="${TFT_CDN.item(item.id)}" alt="${item.name}">
+  container.innerHTML = deck.champions.map((item, index) => `
+    <div class="champion">
+      <img src="${TFT_CDN.item(itemm.id)}" 
+           alt="${item.name}"
+           class="champion_itemm_icon"
+           onerror="this.src='placeholder.png'">  <!-- 이미지 로드 실패 시 -->
+      <div>${item.name}</div>
+      ...
+    </div>
+  `);
 }
 
 function renderItems() {
@@ -167,6 +158,7 @@ function renderItems() {
         </div>
     `).join('');
 }
+
 
 function drag(event, itemName) {
     event.dataTransfer.setData("itemName", itemName);
