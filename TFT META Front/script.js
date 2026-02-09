@@ -1,16 +1,31 @@
 let tftChampions = {};
+let championMap = {};
+// 챔피언 전역 선언
+
+
 
 // 페이지 로드 시 챔피언 데이터 가져오기
 async function loadChampionData() {
     try {
-        const response = await fetch('https://ddragon.leagueoflegends.com/cdn/16.3.1/data/ko_KR/tft-champion.json');
+        const response = await fetch(
+          'https://ddragon.leagueoflegends.com/cdn/16.3.1/data/ko_KR/tft-champion.json'
+        );
         const data = await response.json();
+
         tftChampions = data.data;
-        console.log('챔피언 데이터 로드 완료:', tftChampions);
+
+        // 여기서 정규화
+        championMap = {};
+        Object.values(tftChampions).forEach(champ => {
+            championMap[champ.id] = champ;
+        });
+
+        console.log('챔피언 데이터 로드 완료', championMap);
     } catch (error) {
         console.error('챔피언 데이터 로드 실패:', error);
     }
 }
+
 
 // 26.02.05  -> 이거 티어, 설명은 필요 없고 어떤 챔피언이 있는지만 대충 하면 될듯. api에서 불러오는걸로
 const metaDecks = [
@@ -22,8 +37,8 @@ const metaDecks = [
     {
         name: "공허 카이사 덱",
         champions: [
-            { id: "Kaisa", name: "카이사"},
-            { id:"TFT16_Belveth", name: "벨베스"},
+            { id: "TFT16_Kaisa", name: "카이사"},
+            { id:"TFT16_BelVeth", name: "벨베스"},
             { id:"TFT16_Ziggs", name: "직스"},
             { id:"TFT16_Swain", name: "스웨인"}
         ],
@@ -32,31 +47,31 @@ const metaDecks = [
     {
         name: "브루저 덱",
         description: "높은 생존력과 지속 딜을 갖춘 조합",
-        champions: ["⚔️ 가렌", "🛡️ 세주아니", "🔨 바이", "💪 올라프", "🌊 일라오이"],
+        champions: [],
         recommendedItems: ["워모그", "가시갑옷", "태양불꽃", "거인학살자", "스테락의 도전", "타이탄의 결의"]
     },
     {
         name: "타곤 아우렐리온솔",
         description: "빠른 기동성과 폭발적인 딜로 후방 킬",
-        champions: ["🗡️ 카타리나", "⚡ 제드", "🌙 아칼리", "💀 카직스", "🎭 샤코"],
+        champions: [],
         recommendedItems: ["무한의 대검", "최후의 속삭임", "피바라기", "헤르메스의 발걸음", "밤의 끝자락", "수호 천사"]
     },
     {
         name: "저격수 덱",
         description: "원거리에서 안정적인 딜을 넣는 조합",
-        champions: ["🏹 애쉬", "🎯 징크스", "⚡ 트위치", "🔫 케이틀린", "🌟 이즈리얼"],
+        champions: [],
         recommendedItems: ["거인학살자", "루난의 허리케인", "속삭임", "도적의 장갑", "거대한 구슬", "구인수"]
     },
     {
         name: "탱커 덱",
         description: "최전방에서 딜을 받아주는 철벽 수비",
-        champions: ["🛡️ 쉔", "⚓ 브라움", "🌳 마오카이", "🔥 잭스", "💎 말파이트"],
+        champions: [],
         recommendedItems: ["워모그", "가시갑옷", "태양불꽃", "용의 발톱", "얼어붙은 심장", "가고일 돌갑옷"]
     },
     {
         name: "마법사 덱",
         description: "강력한 마법 폭딜로 적을 녹이는 조합",
-        champions: ["🔥 베이가", "❄️ 애니비아", "⚡ 빅토르", "🌟 라이즈", "💜 신드라"],
+        champions: [],
         recommendedItems: ["라바돈의 죽음모자", "주문력 검", "아이오니아 불꽃", "모렐로", "대천사", "쇼진"]
     }
 ];
@@ -102,7 +117,21 @@ function renderMetaDecks() {
             <h3>${deck.name}</h3>
             <div style="margin-top: 10px;">
                 <strong>추천 챔피언:</strong><br>
-                ${deck.champions.join(', ')}
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                    ${deck.champions.map(champ => {
+                        const championData = championMap[champ.id];
+                        const imageName = championData?.image?.full ?? 'placeholder.png';
+                        return `
+                            <div style="text-align: center;">
+                                <img src="https://ddragon.leagueoflegends.com/cdn/16.3.1/img/tft-champion/${imageName}" 
+                                     alt="${champ.name}"
+                                     style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"
+                                     onerror="this.src='img/placeholder.png'">
+                                <div style="font-size: 0.8em; margin-top: 5px;">${champ.name}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
             </div>
         </div>
     `).join('');
@@ -123,14 +152,14 @@ function renderChampions() {
     
     container.innerHTML = deck.champions.map((champ, index) => {
         const championData = tftChampions[champ.id];
-        const imageName = championData ? championData.image.full : 'placeholder.png';
+        const imageName = championData?.image?.full;
         
         return `
             <div class="champion">
                 <img src="https://ddragon.leagueoflegends.com/cdn/16.3.1/img/tft-champion/${imageName}" 
                      alt="${champ.name}"
                      class="champion-icon"
-                     onerror="this.src='placeholder.png'">
+                     onerror="this.src='img/placeholder.png'">
                 <div>${champ.name}</div>
                 <div class="champion-items" 
                      ondrop="drop(event, ${index})" 
@@ -239,10 +268,6 @@ document.addEventListener('dragend', (e) => {
         slot.classList.remove('drag-over');
     });
 });
-
-// 페이지 로드시 초기화
-renderMetaDecks();
-renderItems();
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadChampionData(); // 먼저 데이터 로드
