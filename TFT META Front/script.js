@@ -45,34 +45,54 @@ const metaDecks = [
         recommendedItems: ["구인수", "마법공학총검", "수호자의 맹세", "태양불꽃망토", "보석 건틀릿", "공허의 지팡이"]
     },
     {
-        name: "브루저 덱",
-        description: "높은 생존력과 지속 딜을 갖춘 조합",
-        champions: [],
-        recommendedItems: ["워모그", "가시갑옷", "태양불꽃", "거인학살자", "스테락의 도전", "타이탄의 결의"]
+        name: "자운 워윅 덱",
+        champions: [
+            { id: "TFT16_Warwick", name: "워윅"},
+            { id:"TFT16_Singed", name: "신지드"},
+            { id:"TFT16_Ziggs", name: "직스"},
+            { id:"TFT16_Seraphine", name: "세라핀"}
+        ],
+        recommendedItems: ["피바라기", "타이탄의 결의", "구인수의 분노", "스테락의 도전", "도적의 장갑", "모렐로노미콘"]
     },
     {
-        name: "타곤 아우렐리온솔",
-        description: "빠른 기동성과 폭발적인 딜로 후방 킬",
-        champions: [],
-        recommendedItems: ["무한의 대검", "최후의 속삭임", "피바라기", "헤르메스의 발걸음", "밤의 끝자락", "수호 천사"]
+        name: "타곤 아우렐리온솔 덱",
+        champions: [
+            { id: "TFT16_Diana", name: "다이애나"},
+            { id:"TFT16_Taric", name: "타릭"},
+            { id:"TFT16_Aurelion Sol", name: "아우렐리온솔"},
+            { id:"TFT16_Swain", name: "스웨인"}
+        ],
+        recommendedItems: ["내셔의 이빨", "보석 건틀릿", "피바라기", "쇼진의 창", "구인수의 분노", "정령의 형상"]
     },
     {
-        name: "저격수 덱",
-        description: "원거리에서 안정적인 딜을 넣는 조합",
-        champions: [],
-        recommendedItems: ["거인학살자", "루난의 허리케인", "속삭임", "도적의 장갑", "거대한 구슬", "구인수"]
+        name: "필트오버 세라핀 덱",
+        champions: [
+            { id: "TFT16_Braum", name: "브라움"},
+            { id:"TFT16_Seraphine", name: "세라핀"},
+            { id:"TFT16_Lissandra", name: "리산드라"},
+            { id:"TFT16_Loris", name: "로리스"}
+        ],
+        recommendedItems: ["보석 건틀릿", "내셔의 이빨", "쇼진의 창", "가고일 돌갑옷", "공허의 지팡이", "용의 발톱"]
     },
     {
-        name: "탱커 덱",
-        description: "최전방에서 딜을 받아주는 철벽 수비",
-        champions: [],
-        recommendedItems: ["워모그", "가시갑옷", "태양불꽃", "용의 발톱", "얼어붙은 심장", "가고일 돌갑옷"]
+        name: "녹서스 스웨인 덱",
+        champions: [
+            { id: "TFT16_Ambessa", name: "암베사"},
+            { id:"TFT16_Swain", name: "스웨인"},
+            { id:"TFT16_Mel", name: "멜"},
+            { id:"TFT16_Draven", name: "드레이븐"}
+        ],
+        recommendedItems: ["구인수의 분노", "태양불꽃 망토", "보석 건틀릿", "피바라기", "정령의 형상", "무한의 대검"]
     },
     {
-        name: "마법사 덱",
-        description: "강력한 마법 폭딜로 적을 녹이는 조합",
-        champions: [],
-        recommendedItems: ["라바돈의 죽음모자", "주문력 검", "아이오니아 불꽃", "모렐로", "대천사", "쇼진"]
+        name: "아이오니아 유나라 덱",
+        champions: [
+            { id: "TFT16_Yunara", name: "유나라"},
+            { id:"TFT16_Wukong", name: "오공"},
+            { id:"TFT16_Sett", name: "세트"},
+            { id:"TFT16_Shen", name: "쉔"}
+        ],
+        recommendedItems: ["구인수의 분노", "무한의 대검", "정령의 형상", "태양불꽃 망토", "타이탄의 결의", "저녁갑주"]
     }
 ];
 
