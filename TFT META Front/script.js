@@ -1,8 +1,15 @@
-// 라이엇 ddragon 연결 
-const TFT_CDN = {
-    version : '16.3.1',
-    champion : (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-champion/${id}.png`,
-    item: (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-item/${id}.png`
+let tftChampions = {};
+
+// 페이지 로드 시 챔피언 데이터 가져오기
+async function loadChampionData() {
+    try {
+        const response = await fetch('https://ddragon.leagueoflegends.com/cdn/16.3.1/data/ko_KR/tft-champion.json');
+        const data = await response.json();
+        tftChampions = data.data;
+        console.log('챔피언 데이터 로드 완료:', tftChampions);
+    } catch (error) {
+        console.error('챔피언 데이터 로드 실패:', error);
+    }
 }
 
 // 26.02.05  -> 이거 티어, 설명은 필요 없고 어떤 챔피언이 있는지만 대충 하면 될듯. api에서 불러오는걸로
@@ -14,12 +21,11 @@ const metaDecks = [
     },*/
     {
         name: "공허 카이사 덱",
-        description: "크립에 2코스트 공허 기물을 먹었을 때 하기 좋아요!",
         champions: [
-            { id: "TFT16_Kaisa", name: "카이사"},
-            { id:" TFT16_Bel'beth", name: "벨베스"},
-            { id:"TFT16_ZIGGS", name: "직스"},
-            { id:"TFT16_SWAIN", name: "스웨인"}
+            { id: "Kaisa", name: "카이사"},
+            { id:"TFT16_Belveth", name: "벨베스"},
+            { id:"TFT16_Ziggs", name: "직스"},
+            { id:"TFT16_Swain", name: "스웨인"}
         ],
         recommendedItems: ["구인수", "마법공학총검", "수호자의 맹세", "태양불꽃망토", "보석 건틀릿", "공허의 지팡이"]
     },
@@ -112,21 +118,29 @@ function selectDeck(index) {
 }
 
 function renderChampions() {
-  // 기존: <div class="champion-icon">${champ.split(' ')[0]}</div>
-  
-  // ✅ 변경:
-  container.innerHTML = deck.champions.map((champ, index) => `
-    <div class="champion">
-      <img src="${TFT_CDN.champion(champ.id)}" 
-           alt="${champ.name}"
-           class="champion-icon"
-           onerror="this.src='placeholder.png'">  <!-- 이미지 로드 실패 시 -->
-      <div>${champ.name}</div>
-      ...
-    </div>
-  `);
+    const deck = metaDecks[currentDeck];
+    const container = document.getElementById('championGrid');
+    
+    container.innerHTML = deck.champions.map((champ, index) => {
+        const championData = tftChampions[champ.id];
+        const imageName = championData ? championData.image.full : 'placeholder.png';
+        
+        return `
+            <div class="champion">
+                <img src="https://ddragon.leagueoflegends.com/cdn/16.3.1/img/tft-champion/${imageName}" 
+                     alt="${champ.name}"
+                     class="champion-icon"
+                     onerror="this.src='placeholder.png'">
+                <div>${champ.name}</div>
+                <div class="champion-items" 
+                     ondrop="drop(event, ${index})" 
+                     ondragover="allowDrop(event)">
+                    ${renderChampionItemSlots(index)}
+                </div>
+            </div>
+        `;
+    }).join('');
 }
-
 
 function renderChampionItems() {
     //<img src="${TFT_CDN.item(item.id)}" alt="${item.name}">
@@ -229,3 +243,9 @@ document.addEventListener('dragend', (e) => {
 // 페이지 로드시 초기화
 renderMetaDecks();
 renderItems();
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadChampionData(); // 먼저 데이터 로드
+    renderMetaDecks();
+    renderItems();
+});
