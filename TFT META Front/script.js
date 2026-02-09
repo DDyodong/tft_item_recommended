@@ -14,12 +14,14 @@ const metaDecks = [
     },*/
     {
         name: "공허 카이사 덱",
+        description: "크립에 2코스트 공허 기물을 먹었을 때 하기 좋아요!",
         champions: [
             { id: "TFT16_Kaisa", name: "카이사"},
             { id:" TFT16_Bel'beth", name: "벨베스"},
-            { id:"TFT16_"}
+            { id:"TFT16_ZIGGS", name: "직스"},
+            { id:"TFT16_SWAIN", name: "스웨인"}
         ],
-        recommendedItems: ["구인수", "주문력 검", "모렐로", "아이오니아 불꽃", "대천사의 지팡이", "쇼진의 창"]
+        recommendedItems: ["구인수", "마법공학총검", "수호자의 맹세", "태양불꽃망토", "보석 건틀릿", "공허의 지팡이"]
     },
     {
         name: "브루저 덱",
@@ -28,7 +30,7 @@ const metaDecks = [
         recommendedItems: ["워모그", "가시갑옷", "태양불꽃", "거인학살자", "스테락의 도전", "타이탄의 결의"]
     },
     {
-        name: "암살자 덱",
+        name: "타곤 아우렐리온솔",
         description: "빠른 기동성과 폭발적인 딜로 후방 킬",
         champions: ["🗡️ 카타리나", "⚡ 제드", "🌙 아칼리", "💀 카직스", "🎭 샤코"],
         recommendedItems: ["무한의 대검", "최후의 속삭임", "피바라기", "헤르메스의 발걸음", "밤의 끝자락", "수호 천사"]

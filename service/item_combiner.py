@@ -16,29 +16,59 @@ class ItemCombiner:
         'SPARRING_GLOVES': '연습용 장갑'
     }
     
-    # 조합 아이템 매핑 (기본 아이템 2개 -> 완성 아이템)
+     # 조합 아이템 매핑 (기본 아이템 2개 -> 완성 아이템)
     ITEM_COMBINATIONS = {
-        # BF 대검 조합
-        ('BF_SWORD', 'BF_SWORD'): 'DEATHBLADE',  # 죽음의 검
-        ('BF_SWORD', 'RECURVE_BOW'): 'GIANT_SLAYER',  # 거인 학살자
-        ('BF_SWORD', 'NEEDLESSLY_LARGE_ROD'): 'HEXTECH_GUNBLADE',  # 마공검
-        ('BF_SWORD', 'TEAR_OF_GODDESS'): 'SPEAR_OF_SHOJIN',  # 쇼진의 창
-        ('BF_SWORD', 'CHAIN_VEST'): 'EDGE_OF_NIGHT',  # 밤의 끝자락
-        ('BF_SWORD', 'NEGATRON_CLOAK'): 'BLOODTHIRSTER',  # 피바라기
-        ('BF_SWORD', 'GIANTS_BELT'): 'STERAKS_GAGE',  # 스테락의 도전
-        ('BF_SWORD', 'SPATULA'): 'TACTICIANS_CROWN',  # 전략가의 왕관
-        ('BF_SWORD', 'SPARRING_GLOVES'): 'INFINITY_EDGE',  # 무한의 대검
-        
-        # 곡궁 조합
-        ('RECURVE_BOW', 'RECURVE_BOW'): 'TITANS_RESOLVE',  # 거인의 결의
-        ('RECURVE_BOW', 'NEEDLESSLY_LARGE_ROD'): 'GUINSOOS_RAGEBLADE',  # 구인수
-        ('RECURVE_BOW', 'TEAR_OF_GODDESS'): 'STATIKK_SHIV',  # 스태틱
-        ('RECURVE_BOW', 'CHAIN_VEST'): 'TITANS_RESOLVE',  # 타이탄
-        ('RECURVE_BOW', 'NEGATRON_CLOAK'): 'RUNAANS_HURRICANE',  # 루난
-        ('RECURVE_BOW', 'GIANTS_BELT'): 'PROTECTORS_VOW',  # 수호자의 맹세
-        
-        # ... 나머지 조합들
-        # (실제로는 모든 조합을 다 작성해야 함)
+        # BF SWORD
+        ('BF_SWORD', 'BF_SWORD'): 'DEATHBLADE',     #죽음의 대검
+        ('BF_SWORD', 'RECURVE_BOW'): 'GIANT_SLAYER',    #거인 학살자
+        ('BF_SWORD', 'NEEDLESSLY_LARGE_ROD'): 'HEXTECH_GUNBLADE',   #마법공학 총검
+        ('BF_SWORD', 'TEAR_OF_THE_GODDESS'): 'SPEAR_OF_SHOJIN', #쇼진의 창
+        ('BF_SWORD', 'CHAIN_VEST'): 'EDGE_OF_NIGHT',    #밤의 끝자락
+        ('BF_SWORD', 'NEGATRON_CLOAK'): 'BLOODTHIRSTER',    #피바라기
+        ('BF_SWORD', 'GIANTS_BELT'): 'STERAKS_GAGE',    #스테락의 도전
+        ('BF_SWORD', 'SPARRING_GLOVES'): 'INFINITY_EDGE',   #무한의 대검
+
+        # RECURVE BOW
+        ('RECURVE_BOW', 'RECURVE_BOW'): 'RAPID_FIRECANNON', #붉은 덩굴 정령
+        ('RECURVE_BOW', 'NEEDLESSLY_LARGE_ROD'): 'GUINSOOS_RAGEBLADE',  #구인수의 격노검
+        ('RECURVE_BOW', 'TEAR_OF_THE_GODDESS'): 'VOID_STAFF',     #공허의 지팡이 
+        ('RECURVE_BOW', 'CHAIN_VEST'): 'TITANS_RESOLVE',    #거인의 결의
+        ('RECURVE_BOW', 'NEGATRON_CLOAK'): 'KRAKENS_FURY',  #크라켄의 분노
+        ('RECURVE_BOW', 'GIANTS_BELT'): 'NASHORS_TOOTH',    #내셔의 이빨
+        ('RECURVE_BOW', 'SPARRING_GLOVES'): 'LAST_WHISPER', #최후의 속삭임
+
+        # NEEDLESSLY LARGE ROD
+        ('NEEDLESSLY_LARGE_ROD', 'NEEDLESSLY_LARGE_ROD'): 'RABADONS_DEATHCAP',  #라바돈의 죽음모자
+        ('NEEDLESSLY_LARGE_ROD', 'TEAR_OF_THE_GODDESS'): 'ARCHANGELS_STAFF',    #대천사의 지팡이
+        ('NEEDLESSLY_LARGE_ROD', 'CHAIN_VEST'): 'CROWNGUARD',   #크라운가드
+        ('NEEDLESSLY_LARGE_ROD', 'NEGATRON_CLOAK'): 'IONIC_SPARK',  #이온 충격기
+        ('NEEDLESSLY_LARGE_ROD', 'GIANTS_BELT'): 'MORELLONOMICON',  #모렐로노미콘
+        ('NEEDLESSLY_LARGE_ROD', 'SPARRING_GLOVES'): 'JEWELED_GAUNTLET',    #보석 건틀릿
+
+        # TEAR OF THE GODDESS
+        ('TEAR_OF_THE_GODDESS', 'TEAR_OF_THE_GODDESS'): 'BLUE_BUFF',    #푸른 파수꾼
+        ('TEAR_OF_THE_GODDESS', 'CHAIN_VEST'): 'PROTECTORS_VOW',    #수호자의 맹세
+        ('TEAR_OF_THE_GODDESS', 'NEGATRON_CLOAK'): 'ADAPTIVE_HELM',  #적응형 투구
+        ('TEAR_OF_THE_GODDESS', 'GIANTS_BELT'): 'SPIRIT_VISAGE',   #정령의 형상
+        ('TEAR_OF_THE_GODDESS', 'SPARRING_GLOVES'): 'HAND_OF_JUSTICE',  #정의의 손길
+
+        # CHAIN VEST
+        ('CHAIN_VEST', 'CHAIN_VEST'): 'BRAMBLE_VEST',   #덤불 조끼  
+        ('CHAIN_VEST', 'NEGATRON_CLOAK'): 'GARGOYLES_STONEPLATE',   #가고일의 돌갑옷
+        ('CHAIN_VEST', 'GIANTS_BELT'): 'SUNFIRE_CAPE',  #태양불꽃 망토
+        ('CHAIN_VEST', 'SPARRING_GLOVES'): 'STEADFAST HEART',   #굳건한 심장
+
+        # NEGATRON CLOAK
+        ('NEGATRON_CLOAK', 'NEGATRON_CLOAK'): 'DRAGONS_CLAW',   #용의 발톱
+        ('NEGATRON_CLOAK', 'GIANTS_BELT'): 'EVENSHROUD',     #전영갑주 Evenshroud
+        ('NEGATRON_CLOAK', 'SPARRING_GLOVES'): 'QUICKSILVER',   #수은
+
+        # GIANTS BELT
+        ('GIANTS_BELT', 'GIANTS_BELT'): 'WARMOGS_ARMOR',    #워모그의 갑옷
+        ('GIANTS_BELT', 'SPARRING_GLOVES'): 'STRIKERS_FLAIL',   #타격대의 철퇴
+
+        # SPARRING GLOVES
+        ('SPARRING_GLOVES', 'SPARRING_GLOVES'): 'THIEFS_GLOVES',    #도적의 장갑
     }
     
     def __init__(self):
