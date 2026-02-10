@@ -1,12 +1,16 @@
 let tftChampions = {};
-let championMap = {};
 let ItemMap = {};
 // 챔피언 전역 선언
-const TFT_CDN = {
-    version: '16.3.1',
+
+
+
+const TFT_CDN = 
+{ version: '16.3.1',
     champion: (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-champion/${id}.png`,
-    item: (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-item/${id}.png`
-};
+    item: (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-item/${id}.png` };
+
+
+
 
 
 // 페이지 로드 시 챔피언 데이터 가져오기
@@ -34,7 +38,7 @@ async function loadChampionData() {
 
 // 26.02.05  -> 이거 티어, 설명은 필요 없고 어떤 챔피언이 있는지만 대충 하면 될듯. api에서 불러오는걸로
 const metaDecks = [
-    /*{
+    /*{_0
         name: "소환사 덱",
         champions: ["🧙‍♂️ 룰루", "🐉 노라", "🌟 신드라", "⚡ 리산드라", "🔮 오리아나"],
         recommendedItems: ["구인수", "주문력 검", "모렐로", "아이오니아 불꽃", "대천사의 지팡이", "쇼진의 창"]
@@ -42,60 +46,60 @@ const metaDecks = [
     {
         name: "공허 카이사 덱",
         champions: [
-            { id: "TFT16_Kaisa", name: "카이사"},
-            { id:"TFT16_BelVeth", name: "벨베스"},
-            { id:"TFT16_Ziggs", name: "직스"},
-            { id:"TFT16_Swain", name: "스웨인"}
+            { id: "Kaisa_0", name: "카이사"},
+            { id:"BelVeth_0", name: "벨베스"},
+            { id:"Ziggs_0", name: "직스"},
+            { id:"Swain_0", name: "스웨인"}
         ],
         recommendedItems: ["구인수의 격노검", "마법공학총검", "수호자의 맹세", "태양불꽃망토", "보석 건틀릿", "공허의 지팡이"]
     },
     {
         name: "자운 워윅 덱",
         champions: [
-            { id: "TFT16_Warwick", name: "워윅"},
-            { id:"TFT16_Ziggs", name: "직스"},
-            { id:"TFT16_Singed", name: "신지드"},
-            { id:"TFT16_Seraphine", name: "세라핀"}
+            { id: "Warwick_0", name: "워윅"},
+            { id:"Ziggs_0", name: "직스"},
+            { id:"Singed_0", name: "신지드"},
+            { id:"Seraphine_0", name: "세라핀"}
         ],
         recommendedItems: ["피바라기", "거인의 결의", "구인수의 격노검", "무한의 대검", "크라켄의 분노", "모렐로노미콘"]
     },
     {
         name: "타곤 아우렐리온솔 덱",
         champions: [
-            { id:"TFT16_Aurelion Sol", name: "아우렐리온솔"},
-            { id:"TFT16_Taric", name: "타릭"},
-            { id: "TFT16_Diana", name: "다이애나"},
-            { id:"TFT16_Swain", name: "스웨인"}
+            { id:"AurelionSol_0", name: "아우렐리온솔"},
+            { id:"Taric_0", name: "타릭"},
+            { id: "Diana_0", name: "다이애나"},
+            { id:"Swain_0", name: "스웨인"}
         ],
         recommendedItems: ["내셔의 이빨", "보석 건틀릿", "피바라기", "쇼진의 창", "구인수의 분노", "정령의 형상"]
     },
     {
         name: "필트오버 세라핀 덱",
         champions: [
-            { id:"TFT16_Seraphine", name: "세라핀"},
-            { id:"TFT16_Lissandra", name: "리산드라"},
-            { id: "TFT16_Braum", name: "브라움"},
-            { id:"TFT16_Loris", name: "로리스"}
+            { id:"Seraphine_0", name: "세라핀"},
+            { id:"Lissandra_0", name: "리산드라"},
+            { id: "Braum_0", name: "브라움"},
+            { id:"Loris_0", name: "로리스"}
         ],
         recommendedItems: ["보석 건틀릿", "내셔의 이빨", "쇼진의 창", "정령의 형상", "모렐로노미콘", "가시 갑옷"]
     },
     {
         name: "녹서스 스웨인 덱",
         champions: [
-            { id:"TFT16_Swain", name: "스웨인"},
-            { id:"TFT16_Mel", name: "멜"},
-            { id: "TFT16_Ambessa", name: "암베사"},
-            { id:"TFT16_Draven", name: "드레이븐"}
+            { id:"Swain_0", name: "스웨인"},
+            { id:"Mel_0", name: "멜"},
+            { id: "Ambessa_0", name: "암베사"},
+            { id:"Draven_0", name: "드레이븐"}
         ],
         recommendedItems: ["쇼진의 창", "보석 건틀릿", "공허의 지팡이", "정령의 형상", "정의의 손길", "밤의 끝자락"]
     },
     {
         name: "아이오니아 유나라 덱",
         champions: [
-            { id: "TFT16_Yunara", name: "유나라"},
-            { id:"TFT16_Wukong", name: "오공"},
-            { id:"TFT16_Sett", name: "세트"},
-            { id:"TFT16_Shen", name: "쉔"}
+            { id: "Yunara_0", name: "유나라"},
+            { id:"MonkeyKing_0", name: "오공"},
+            { id:"Sett_0", name: "세트"},
+            { id:"Shen_0", name: "쉔"}
         ],
         recommendedItems: ["구인수의 분노", "무한의 대검", "정령의 형상", "태양불꽃 망토", "보석 건틀릿", "저녁갑주"]
     }
@@ -140,19 +144,15 @@ function renderMetaDecks() {
             <div style="margin-top: 10px;">
                 <strong>추천 챔피언:</strong><br>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-                    ${deck.champions.map(champ => {
-                        const championData = championMap[champ.id];
-                        const imageName = championData?.image?.full ?? 'placeholder.png';
-                        return `
-                            <div style="text-align: center;">
-                                <img src="${TFT_CDN.champion(champ.id)}" 
-                                     alt="${champ.name}"
-                                     style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"
-                                     onerror="this.src='img/placeholder.png'">
-                                <div style="font-size: 0.8em; margin-top: 5px;">${champ.name}</div>
-                            </div>
-                        `;
-                    }).join('')}
+                    ${deck.champions.map(champ => `
+                        <div style="text-align: center;">
+                            <img src="img/tft_champion/${champ.id}.jpg"
+                                 alt="${champ.name}"
+                                 style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"
+                                 onerror="this.src='img/placeholder.png'">
+                            <div style="font-size: 0.8em; margin-top: 5px;">${champ.name}</div>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         </div>
@@ -168,7 +168,7 @@ function selectDeck(index) {
     document.getElementById('championsSection').style.display = 'block';
 }
 
-function renderChampions() {
+/* function renderChampions() {
     const deck = metaDecks[currentDeck];
     const container = document.getElementById('championGrid');
     
@@ -178,7 +178,7 @@ function renderChampions() {
         
         return `
             <div class="champion">
-                <img src="https://ddragon.leagueoflegends.com/cdn/16.3.1/img/tft-champion/${imageName}" 
+                    <img src="https://ddragon.leagueoflegends.com/cdn/16.3.1/img/tft-champion/${imageName}" 
                      alt="${champ.name}"
                      class="champion-icon"
                      onerror="this.src='img/placeholder.png'">
@@ -191,7 +191,7 @@ function renderChampions() {
             </div>
         `;
     }).join('');
-}
+} */
 
 function renderChampionItems() {
     //<img src="${TFT_CDN.item(item.id)}" alt="${item.name}">
@@ -231,6 +231,33 @@ function renderItems() {
     `).join('');
     */
 
+/*function renderMetaDecks() {
+    const container = document.getElementById('metaDecks');
+    container.innerHTML = metaDecks.map((deck, index) => `
+        <div class="deck-card ${currentDeck === index ? 'active' : ''}" onclick="selectDeck(${index})">
+            <h3>${deck.name}</h3>
+            <div style="margin-top: 10px;">
+                <strong>추천 챔피언:</strong><br>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                    ${deck.champions.map(champ => {
+                        const championData = championMap[champ.id];
+                        const imageName = championData?.image?.full ?? 'placeholder.png';
+                        return `
+                            <div style="text-align: center;">
+                                <img src="https://ddragon.leagueoflegends.com/cdn/16.3.1/img/tft-champion/${imageName}" 
+                                     alt="${champ.name}"
+                                     style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"
+                                     onerror="this.src='img/placeholder.png'">
+                                <div style="font-size: 0.8em; margin-top: 5px;">${champ.name}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+*/
 
 function drag(event, itemName) {
     event.dataTransfer.setData("itemName", itemName);
