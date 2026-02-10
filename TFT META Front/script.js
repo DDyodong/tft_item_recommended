@@ -1,7 +1,12 @@
 let tftChampions = {};
 let championMap = {};
+let ItemMap = {};
 // 챔피언 전역 선언
-
+const TFT_CDN = {
+    version: '16.3.1',
+    champion: (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-champion/${id}.png`,
+    item: (id) => `https://ddragon.leagueoflegends.com/cdn/${TFT_CDN.version}/img/tft-item/${id}.png`
+};
 
 
 // 페이지 로드 시 챔피언 데이터 가져오기
@@ -42,24 +47,24 @@ const metaDecks = [
             { id:"TFT16_Ziggs", name: "직스"},
             { id:"TFT16_Swain", name: "스웨인"}
         ],
-        recommendedItems: ["구인수", "마법공학총검", "수호자의 맹세", "태양불꽃망토", "보석 건틀릿", "공허의 지팡이"]
+        recommendedItems: ["구인수의 격노검", "마법공학총검", "수호자의 맹세", "태양불꽃망토", "보석 건틀릿", "공허의 지팡이"]
     },
     {
         name: "자운 워윅 덱",
         champions: [
             { id: "TFT16_Warwick", name: "워윅"},
-            { id:"TFT16_Singed", name: "신지드"},
             { id:"TFT16_Ziggs", name: "직스"},
+            { id:"TFT16_Singed", name: "신지드"},
             { id:"TFT16_Seraphine", name: "세라핀"}
         ],
-        recommendedItems: ["피바라기", "타이탄의 결의", "구인수의 분노", "스테락의 도전", "도적의 장갑", "모렐로노미콘"]
+        recommendedItems: ["피바라기", "거인의 결의", "구인수의 격노검", "무한의 대검", "크라켄의 분노", "모렐로노미콘"]
     },
     {
         name: "타곤 아우렐리온솔 덱",
         champions: [
-            { id: "TFT16_Diana", name: "다이애나"},
-            { id:"TFT16_Taric", name: "타릭"},
             { id:"TFT16_Aurelion Sol", name: "아우렐리온솔"},
+            { id:"TFT16_Taric", name: "타릭"},
+            { id: "TFT16_Diana", name: "다이애나"},
             { id:"TFT16_Swain", name: "스웨인"}
         ],
         recommendedItems: ["내셔의 이빨", "보석 건틀릿", "피바라기", "쇼진의 창", "구인수의 분노", "정령의 형상"]
@@ -67,22 +72,22 @@ const metaDecks = [
     {
         name: "필트오버 세라핀 덱",
         champions: [
-            { id: "TFT16_Braum", name: "브라움"},
             { id:"TFT16_Seraphine", name: "세라핀"},
             { id:"TFT16_Lissandra", name: "리산드라"},
+            { id: "TFT16_Braum", name: "브라움"},
             { id:"TFT16_Loris", name: "로리스"}
         ],
-        recommendedItems: ["보석 건틀릿", "내셔의 이빨", "쇼진의 창", "가고일 돌갑옷", "공허의 지팡이", "용의 발톱"]
+        recommendedItems: ["보석 건틀릿", "내셔의 이빨", "쇼진의 창", "정령의 형상", "모렐로노미콘", "가시 갑옷"]
     },
     {
         name: "녹서스 스웨인 덱",
         champions: [
-            { id: "TFT16_Ambessa", name: "암베사"},
             { id:"TFT16_Swain", name: "스웨인"},
             { id:"TFT16_Mel", name: "멜"},
+            { id: "TFT16_Ambessa", name: "암베사"},
             { id:"TFT16_Draven", name: "드레이븐"}
         ],
-        recommendedItems: ["구인수의 분노", "태양불꽃 망토", "보석 건틀릿", "피바라기", "정령의 형상", "무한의 대검"]
+        recommendedItems: ["쇼진의 창", "보석 건틀릿", "공허의 지팡이", "정령의 형상", "정의의 손길", "밤의 끝자락"]
     },
     {
         name: "아이오니아 유나라 덱",
@@ -92,39 +97,36 @@ const metaDecks = [
             { id:"TFT16_Sett", name: "세트"},
             { id:"TFT16_Shen", name: "쉔"}
         ],
-        recommendedItems: ["구인수의 분노", "무한의 대검", "정령의 형상", "태양불꽃 망토", "타이탄의 결의", "저녁갑주"]
+        recommendedItems: ["구인수의 분노", "무한의 대검", "정령의 형상", "태양불꽃 망토", "보석 건틀릿", "저녁갑주"]
     }
 ];
 
 const allItems = [
-    { name: "무한의 대검", icon: "⚔️", tags: ["AD", "크리티컬"] },
-    { name: "구인수", icon: "🗡️", tags: ["공속", "마나"] },
-    { name: "거인학살자", icon: "🔪", tags: ["AD", "체력"] },
-    { name: "피바라기", icon: "🩸", tags: ["AD", "흡혈"] },
-    { name: "수호 천사", icon: "👼", tags: ["AD", "방어"] },
-    { name: "최후의 속삭임", icon: "🌪️", tags: ["AD", "관통"] },
-    { name: "루난의 허리케인", icon: "🌀", tags: ["공속", "멀티"] },
-    { name: "라바돈의 죽음모자", icon: "🎩", tags: ["AP", "주문력"] },
-    { name: "주문력 검", icon: "✨", tags: ["AP", "주문력"] },
-    { name: "모렐로", icon: "🔥", tags: ["AP", "화상"] },
-    { name: "아이오니아 불꽃", icon: "💫", tags: ["AP", "마나"] },
-    { name: "대천사의 지팡이", icon: "🪄", tags: ["AP", "마나"] },
-    { name: "쇼진의 창", icon: "🔱", tags: ["AP", "마나"] },
-    { name: "워모그", icon: "❤️", tags: ["체력", "회복"] },
-    { name: "가시갑옷", icon: "🦔", tags: ["방어", "반사"] },
-    { name: "태양불꽃", icon: "☀️", tags: ["방어", "화상"] },
-    { name: "용의 발톱", icon: "🐲", tags: ["방어", "마법저항"] },
-    { name: "얼어붙은 심장", icon: "❄️", tags: ["방어", "둔화"] },
-    { name: "가고일 돌갑옷", icon: "🗿", tags: ["방어", "저항"] },
-    { name: "스테락의 도전", icon: "💪", tags: ["체력", "방어"] },
-    { name: "타이탄의 결의", icon: "🛡️", tags: ["체력", "방어"] },
-    { name: "헤르메스의 발걸음", icon: "👟", tags: ["공속", "이속"] },
-    { name: "밤의 끝자락", icon: "🌙", tags: ["AD", "보호막"] },
-    { name: "도적의 장갑", icon: "🧤", tags: ["크리티컬", "회피"] },
-    { name: "거대한 구슬", icon: "🔮", tags: ["AP", "사거리"] },
-    { name: "속삭임", icon: "💨", tags: ["AD", "관통"] },
-    { name: "대천사", icon: "😇", tags: ["AP", "마나"] },
-    { name: "쇼진", icon: "⚡", tags: ["AP", "마나"] }
+    { name: "무한의 대검", id: "TFT_Item_InfinityEdge" },
+    { name: "구인수의 격노검", id: "TFT_Item_GuinsoosRageblade" },
+    { name: "거인 학살자", id: "TFT_Item_MadredsBloodrazor" },
+    { name: "피바라기", id: "TFT_Item_Bloodthirster" },
+    { name: "밤의 끝자락", id: "TFT_Item_GuardianAngel" },
+    { name: "최후의 속삭임", id: "TFT_Item_LastWhisper" },
+    { name: "크라켄의 분노", id: "TFT_Item_RunaansHurricane" },
+    { name: "라바돈의 죽음모자", id: "TFT_Item_RabadonsDeathcap" },
+    { name: "마법공학 총검", id: "TFT_Item_HextechGunblade" },
+    { name: "모렐로노미콘", id: "TFT_Item_Morellonomicon" },
+    { name: "공허의 지팡이", id: "TFT_Item_StatikkShiv" },
+    { name: "대천사의 지팡이", id: "TFT_Item_ArchangelsStaff" },
+    { name: "쇼진의 창", id: "TFT_Item_SpearOfShojin" },
+    { name: "워모그의 갑옷", id: "TFT_Item_WarmogsArmor" },
+    { name: "덤불 조끼", id: "TFT_Item_BrambleVest" },
+    { name: "태양불꽃 망토", id: "TFT_Item_RedBuff" },
+    { name: "용의 발톱", id: "TFT_Item_DragonsClaw" },
+    { name: "수호자의 맹세", id: "TFT_Item_FrozenHeart" },
+    { name: "가고일 돌갑옷", id: "TFT_Item_GargoyleStoneplate" },
+    { name: "스테락의 도전", id: "TFT_Item_SteraksGage" },
+    { name: "거인의 결의", id: "TFT_Item_TitansResolve" },
+    { name: "붉은 덩굴정령", id: "TFT_Item_RapidFireCannon" },
+    { name: "죽음의 검", id: "TFT_Item_Deathblade" },
+    { name: "도적의 장갑", id: "TFT_Item_ThiefsGloves" },
+    { name: "보석 건틀릿", id: "TFT_Item_JeweledGauntlet" }
 ];
 
 let currentDeck = null;
@@ -143,7 +145,7 @@ function renderMetaDecks() {
                         const imageName = championData?.image?.full ?? 'placeholder.png';
                         return `
                             <div style="text-align: center;">
-                                <img src="https://ddragon.leagueoflegends.com/cdn/16.3.1/img/tft-champion/${imageName}" 
+                                <img src="${TFT_CDN.champion(champ.id)}" 
                                      alt="${champ.name}"
                                      style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"
                                      onerror="this.src='img/placeholder.png'">
@@ -205,24 +207,29 @@ function renderChampionItems() {
   `);
 }
 
+// allItems
 function renderItems() {
     const container = document.getElementById('itemsGrid');
-    let itemsToShow = allItems;
     
-    if (currentDeck !== null) {
-        const deck = metaDecks[currentDeck];
-        itemsToShow = allItems.filter(item => 
-            deck.recommendedItems.includes(item.name)
-        );
-    }
-    
+    container.innerHTML = allItems.map((item, index) => `
+        <div class="item" draggable="true" ondragstart="drag(event, '${item.name}')" id="item-${index}">
+            <img src="${TFT_CDN.item(item.id)}" 
+                 alt="${item.name}"
+                 class="item-icon"
+                 style="width: 50px; height: 50px; border-radius: 8px; margin: 0 auto 10px;"
+                 onerror="this.src='img/placeholder.png'">
+            <div class="item-name">${item.name}</div>
+        </div>
+    `).join('');
+}
+    /*
     container.innerHTML = itemsToShow.map((item, index) => `
         <div class="item" draggable="true" ondragstart="drag(event, '${item.name}')" id="item-${index}">
             <div class="item-icon">${item.icon}</div>
             <div class="item-name">${item.name}</div>
         </div>
     `).join('');
-}
+    */
 
 
 function drag(event, itemName) {
