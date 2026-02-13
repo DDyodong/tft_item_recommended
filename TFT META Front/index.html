@@ -3,24 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TFT 메타 덱 빌더</title>
+    <title>TFT 메타 & 매치 히스토리</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <h1 class="nav-logo">TFT TRACKER</h1>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">매치 & 메타</a>
+                <a href="builder.html" class="nav-link">덱 빌더</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-        <h1>TFT 메타 덱 빌더</h1>
+        <!-- 소환사 검색 섹션 -->
+        <section class="search-section">
+            <h2 class="section-title">소환사 조회</h2>
+            <div class="search-box">
+                <input type="text" id="summonerInput" placeholder="소환사 이름#KR1" class="summoner-input">
+                <button onclick="searchSummoner()" class="search-btn">검색</button>
+            </div>
+        </section>
 
-        <div class="meta-decks" id="metaDecks"></div>
+        <!-- 최근 매치 섹션 -->
+        <section class="matches-section" id="matchesSection" style="display: none;">
+            <h2 class="section-title">최근 매치 (20경기)</h2>
+            <div class="match-stats" id="matchStats"></div>
+            <div class="matches-grid" id="matchesGrid"></div>
+        </section>
 
-        <div class="champions" id="championsSection" style="display: none;">
-            <h2>챔피언 구성</h2>
-            <div class="champion-grid" id="championGrid"></div>
-        </div>
+        <!-- 메타 덱 섹션 -->
+        <section class="meta-section">
+            <h2 class="section-title">시즌 16 메타 덱</h2>
+            
+            <div class="tier-container">
+                <div class="tier-section">
+                    <div class="tier-header tier-s">
+                        <span class="tier-badge">S</span>
+                        <span class="tier-label">최상위 티어</span>
+                    </div>
+                    <div class="meta-decks" id="metaDecksS"></div>
+                </div>
 
-        <div class="items-section">
-            <h2>아이템 목록</h2>
-            <div class="items-grid" id="itemsGrid"></div>
-        </div>
+                <div class="tier-section">
+                    <div class="tier-header tier-a">
+                        <span class="tier-badge">A</span>
+                        <span class="tier-label">상위 티어</span>
+                    </div>
+                    <div class="meta-decks" id="metaDecksA"></div>
+                </div>
+
+                <div class="tier-section">
+                    <div class="tier-header tier-b">
+                        <span class="tier-badge">B</span>
+                        <span class="tier-label">중상위 티어</span>
+                    </div>
+                    <div class="meta-decks" id="metaDecksB"></div>
+                </div>
+
+                <div class="tier-section">
+                    <div class="tier-header tier-c">
+                        <span class="tier-badge">C</span>
+                        <span class="tier-label">중위 티어</span>
+                    </div>
+                    <div class="meta-decks" id="metaDecksC"></div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="script.js"></script>
