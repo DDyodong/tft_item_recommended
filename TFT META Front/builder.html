@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFT 덱 빌더</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <h1 class="nav-logo">TFT TRACKER</h1>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">매치 & 메타</a>
+                <a href="builder.html" class="nav-link active">덱 빌더</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container builder-container">
+        <!-- 배치 보드 섹션 -->
+        <section class="board-section">
+            <h2 class="section-title">배치 보드</h2>
+            <div class="game-board" id="gameBoard"></div>
+            <div class="board-controls">
+                <button onclick="clearBoard()" class="control-btn">전체 초기화</button>
+                <button onclick="saveBoard()" class="control-btn primary">배치 저장</button>
+            </div>
+        </section>
+
+        <!-- 챔피언 선택 섹션 -->
+        <section class="champions-pool">
+            <h2 class="section-title">챔피언</h2>
+            <div class="cost-filter">
+                <button onclick="filterByCost('all')" class="filter-btn active" data-cost="all">전체</button>
+                <button onclick="filterByCost(1)" class="filter-btn" data-cost="1">1코스트</button>
+                <button onclick="filterByCost(2)" class="filter-btn" data-cost="2">2코스트</button>
+                <button onclick="filterByCost(3)" class="filter-btn" data-cost="3">3코스트</button>
+                <button onclick="filterByCost(4)" class="filter-btn" data-cost="4">4코스트</button>
+                <button onclick="filterByCost(5)" class="filter-btn" data-cost="5">5코스트</button>
+            </div>
+            <div class="champion-pool-grid" id="championPool"></div>
+        </section>
+
+        <!-- 아이템 선택 섹션 -->
+        <section class="items-pool">
+            <h2 class="section-title">아이템</h2>
+            <div class="items-grid" id="itemsGrid"></div>
+        </section>
+    </div>
+
+    <script src="builder.js"></script>
+</body>
+</html>
