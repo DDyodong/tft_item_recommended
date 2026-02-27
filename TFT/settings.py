@@ -21,6 +21,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 RIOT_API_KEY = os.getenv('RIOT_API_KEY')
+RIOT_API_BASE_URL = "https://kr.api.riotgames.com"   # 추가
+RIOT_MATCH_API_URL = "https://asia.api.riotgames.com" # 추가 (매치 데이터는 아시아 서버)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/

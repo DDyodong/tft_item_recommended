@@ -8,19 +8,19 @@ class TFTAnalyzer:
         self.headers = {'X-Riot-Token': self.api_key}
 
     def get_summoner_info(self):
-        url = f"{settings.RIOT_API_BASE_URL}/tft/league/v1/challenger" # 챌린저 티어 소환사 정보 가져오기
+        url = "https://kr.api.riotgames.com/tft/league/v1/challenger"
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         return response.json()['entries']
     
     def get_match_ids(self, puuid, count=20):
-        url = f"{settings.RIOT_API_BASE_URL}/tft/match/v1/matches/by-puuid/{puuid}/ids?count={count}" # 매치 ID 리스트 가져오기
+        url = f"https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/{puuid}/ids?count={count}" # 매치 ID 리스트 가져오기
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         return response.json()
 
     def get_match_detail(self, match_id):
-        url = f"{settings.RIOT_API_BASE_URL}/tft/match/v1/matches/{match_id}"
+        url = f"https://asia.api.riotgames.com/tft/match/v1/matches/{match_id}" # 매치 상세 정보 가져오기
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         time.sleep(0.1) # API 호출 제한을 피하기 위해 잠시 대기
@@ -47,14 +47,48 @@ class TFTAnalyzer:
         return top4_matches # 상위 4위 매치 리스트 반환
     
     def analyze_item_usage(self, top4_matches):
-        
-        item_status = defaultdict(lambda: defaultdict(int)) # 아이템 사용 통계 초기화
+        item_status = defaultdict(lambda: defaultdict(int))
 
-        for match in top4_matches:          # 각 순방 매치에서 아이템 사용 통계 집계
+        for match in top4_matches:
             for unit in match['units']:
                 unit_id = unit['character_id']
-
-                for item_id in unit['item_ids']:
+                for item_id in unit['itemNames']:
                     item_status[unit_id][item_id] += 1
         
-        return item_status # 아이템 사용 통계 반환
+        # defaultdict → 일반 dict로 변환
+        return {k: dict(v) for k, v in item_status.items()}
+    
+    def save_to_db(self, top4_matches, item_status):
+        from TFT_meta.models import Unit, ItemUsage
+    
+        RARITY_TO_COST = {0: 1, 1: 2, 2: 3, 4: 4, 6: 5}
+
+        # top4_matches에서 유닛 rarity 추출
+        units_info = {}
+        for match in top4_matches:
+            for unit in match['units']:
+                units_info[unit['character_id']] = unit.get('rarity', 0)
+
+        for character_id, items in item_status.items():
+            rarity = units_info.get(character_id, 0)
+            cost = RARITY_TO_COST.get(rarity, 1)
+
+            unit, created = Unit.objects.get_or_create(
+                character_id=character_id,
+                defaults={'name': character_id, 'cost': cost}
+            )
+            if not created and unit.cost != cost:
+                unit.cost = cost
+                unit.save()
+
+            for item_id, count in items.items():
+                item_usage, _ = ItemUsage.objects.get_or_create(
+                    unit=unit,
+                    item_id=item_id,
+                    defaults={'usage_count': 0, 'top4_count': 0}
+                )
+                item_usage.usage_count += count
+                item_usage.top4_count += count
+                item_usage.save()
+        
+        print("저장 완료!")

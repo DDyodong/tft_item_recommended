@@ -73,7 +73,7 @@ POST /api/units/
 Body:
 ```json
 {
-  "character_id": "TFT13_Ahri",
+  "character_id": "TFT16_Ahri",
   "name": "아리",
   "cost": 3
 }

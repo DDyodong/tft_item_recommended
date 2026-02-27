@@ -28,10 +28,10 @@ const metaDecksByTier = {
         {
             name: "공허 카이사",
             champions: [
-                { id: "TFT16_Kaisa", name: "카이사"},
-                { id: "TFT16_BelVeth", name: "벨베스"},
-                { id: "TFT16_Ziggs", name: "직스"},
-                { id: "TFT16_Swain", name: "스웨인"}
+                { id: "Kaisa_0", name: "카이사"},
+                { id: "BelVeth_0", name: "벨베스"},
+                { id: "Ziggs_0", name: "직스"},
+                { id: "Swain_0", name: "스웨인"}
             ],
             recommendedItems: ["구인수", "마법공학총검", "수호자의 맹세"],
             winRate: "18.2%"
@@ -39,10 +39,10 @@ const metaDecksByTier = {
         {
             name: "자운 워윅",
             champions: [
-                { id: "TFT16_Warwick", name: "워윅"},
-                { id: "TFT16_Singed", name: "신지드"},
-                { id: "TFT16_Ziggs", name: "직스"},
-                { id: "TFT16_Seraphine", name: "세라핀"}
+                { id: "Warwick_0", name: "워윅"},
+                { id: "Singed_0", name: "신지드"},
+                { id: "Ziggs_0", name: "직스"},
+                { id: "Seraphine_0", name: "세라핀"}
             ],
             recommendedItems: ["피바라기", "타이탄의 결의", "구인수의 분노"],
             winRate: "17.5%"
@@ -52,10 +52,10 @@ const metaDecksByTier = {
         {
             name: "타곤 아우렐리온솔",
             champions: [
-                { id: "TFT16_Diana", name: "다이애나"},
-                { id: "TFT16_Taric", name: "타릭"},
-                { id: "TFT16_AurelionSol", name: "아우렐리온솔"},
-                { id: "TFT16_Swain", name: "스웨인"}
+                { id: "Diana_0", name: "다이애나"},
+                { id: "Taric_0", name: "타릭"},
+                { id: "AurelionSol_0", name: "아우렐리온솔"},
+                { id: "Swain_0", name: "스웨인"}
             ],
             recommendedItems: ["내셔의 이빨", "보석 건틀릿", "피바라기"],
             winRate: "16.8%"
@@ -63,10 +63,10 @@ const metaDecksByTier = {
         {
             name: "필트오버 세라핀",
             champions: [
-                { id: "TFT16_Braum", name: "브라움"},
-                { id: "TFT16_Seraphine", name: "세라핀"},
-                { id: "TFT16_Lissandra", name: "리산드라"},
-                { id: "TFT16_Loris", name: "로리스"}
+                { id: "Braum_0", name: "브라움"},
+                { id: "Seraphine_0", name: "세라핀"},
+                { id: "Lissandra_0", name: "리산드라"},
+                { id: "Loris_0", name: "로리스"}
             ],
             recommendedItems: ["보석 건틀릿", "내셔의 이빨", "쇼진의 창"],
             winRate: "15.9%"
@@ -76,10 +76,10 @@ const metaDecksByTier = {
         {
             name: "녹서스 스웨인",
             champions: [
-                { id: "TFT16_Ambessa", name: "암베사"},
-                { id: "TFT16_Swain", name: "스웨인"},
-                { id: "TFT16_Mel", name: "멜"},
-                { id: "TFT16_Draven", name: "드레이븐"}
+                { id: "Ambessa_0", name: "암베사"},
+                { id: "Swain_0", name: "스웨인"},
+                { id: "Mel_0", name: "멜"},
+                { id: "Draven_0", name: "드레이븐"}
             ],
             recommendedItems: ["구인수의 분노", "태양불꽃 망토", "보석 건틀릿"],
             winRate: "14.2%"
@@ -89,10 +89,10 @@ const metaDecksByTier = {
         {
             name: "아이오니아 유나라",
             champions: [
-                { id: "TFT16_Yunara", name: "유나라"},
-                { id: "TFT16_Wukong", name: "오공"},
-                { id: "TFT16_Sett", name: "세트"},
-                { id: "TFT16_Shen", name: "쉔"}
+                { id: "Yunara_0", name: "유나라"},
+                { id: "Wukong_0", name: "오공"},
+                { id: "Sett_0", name: "세트"},
+                { id: "Shen_0", name: "쉔"}
             ],
             recommendedItems: ["구인수의 분노", "무한의 대검", "정령의 형상"],
             winRate: "12.8%"
@@ -187,12 +187,12 @@ function renderMetaDecksByTier() {
                 <div class="deck-champions">
                     ${deck.champions.map(champ => {
                         const championData = championMap[champ.id];
-                        const imageName = championData?.image?.full ?? 'placeholder.png';
+                        const imageName = championData?.image?.full ?? 'img/placeholder.png';
                         return `
                             <div class="deck-champ">
-                                <img src="https://ddragon.leagueoflegends.com/cdn/16.3.1/img/tft-champion/${imageName}" 
+                                <img src="img/tft_champions/${imageName}.jpg" 
                                      alt="${champ.name}"
-                                     onerror="this.src='placeholder.png'">
+                                     onerror="this.src='img/placeholder.png'">
                                 <div class="champ-name">${champ.name}</div>
                             </div>
                         `;
