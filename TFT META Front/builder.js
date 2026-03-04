@@ -41,32 +41,7 @@ async function loadChampionData() {
 }
 
 // 아이템 목록
-const allItems = [
-    { name: "무한의 대검", icon: "⚔️" },
-    { name: "구인수", icon: "🗡️" },
-    { name: "거인학살자", icon: "🔪" },
-    { name: "피바라기", icon: "🩸" },
-    { name: "수호 천사", icon: "👼" },
-    { name: "최후의 속삭임", icon: "🌪️" },
-    { name: "루난의 허리케인", icon: "🌀" },
-    { name: "라바돈의 죽음모자", icon: "🎩" },
-    { name: "주문력 검", icon: "✨" },
-    { name: "모렐로", icon: "🔥" },
-    { name: "아이오니아 불꽃", icon: "💫" },
-    { name: "대천사의 지팡이", icon: "🪄" },
-    { name: "쇼진의 창", icon: "🔱" },
-    { name: "워모그", icon: "❤️" },
-    { name: "가시갑옷", icon: "🦔" },
-    { name: "태양불꽃", icon: "☀️" },
-    { name: "용의 발톱", icon: "🐲" },
-    { name: "얼어붙은 심장", icon: "❄️" },
-    { name: "가고일 돌갑옷", icon: "🗿" },
-    { name: "스테락의 도전", icon: "💪" },
-    { name: "타이탄의 결의", icon: "🛡️" },
-    { name: "헤르메스의 발걸음", icon: "👟" },
-    { name: "밤의 끝자락", icon: "🌙" },
-    { name: "도적의 장갑", icon: "🧤" }
-];
+const allItems = [];
 
 // 게임 보드 렌더링
 function renderGameBoard() {
@@ -147,22 +122,6 @@ function clearBoard() {
     }
 }
 
-// 배치 저장
-function saveBoard() {
-    const composition = boardState.filter(unit => unit !== null);
-    if (composition.length === 0) {
-        alert('배치된 챔피언이 없습니다.');
-        return;
-    }
-    
-    const saveData = {
-        composition: composition,
-        timestamp: new Date().toISOString()
-    };
-    
-    localStorage.setItem('tft_board_save', JSON.stringify(saveData));
-    alert('배치가 저장되었습니다!');
-}
 
 // 코스트 필터
 function filterByCost(cost) {
