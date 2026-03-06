@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     PlayerViewSet, MatchViewSet, UnitViewSet,
     PlacementViewSet, DeckCompositionViewSet,
-    ItemUsageViewSet, MetaAnalysisViewSet
+    ItemUsageViewSet, MetaAnalysisViewSet, SummonerViewSet
 )
 
 # Router 설정
@@ -15,6 +15,7 @@ router.register(r'placements', PlacementViewSet, basename='placement')
 router.register(r'deck-compositions', DeckCompositionViewSet, basename='deckcomposition')
 router.register(r'item-usages', ItemUsageViewSet, basename='itemusage')
 router.register(r'meta', MetaAnalysisViewSet, basename='meta')
+router.register(r'summoner', SummonerViewSet, basename='summoner')
 
 urlpatterns = [
     path('api/', include(router.urls)),
