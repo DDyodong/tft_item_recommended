@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>설정 - TFT Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <h1 class="nav-logo">TFT TRACKER</h1>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">매치 히스토리</a>
+                <a href="builder.html" class="nav-link">덱 빌더</a>
+                <a href="settings.html" class="nav-link active">설정</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="settings-section">
+            <h2 class="section-title">설정</h2>
+            
+            <!-- API 키 설정 -->
+            <div class="settings-group">
+                <h3>Riot API 키</h3>
+                <p class="settings-description">
+                    Riot Games Developer Portal에서 발급받은 API 키를 입력하세요.<br>
+                    <a href="https://developer.riotgames.com/" target="_blank" style="color: #1abc9c;">developer.riotgames.com</a>에서 발급받을 수 있습니다.
+                </p>
+                <div class="input-group">
+                    <input type="password" id="apiKeyInput" placeholder="RGAPI-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" class="settings-input">
+                    <button onclick="toggleApiKeyVisibility()" class="settings-btn secondary">👁️ 보기</button>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <button onclick="saveApiKey()" class="settings-btn primary">API 키 저장</button>
+                    <button onclick="testApiKey()" class="settings-btn">연결 테스트</button>
+                </div>
+                <div id="apiKeyStatus" class="status-message"></div>
+            </div>
+
+            <!-- 앱 정보 -->
+            <div class="settings-group">
+                <h3>앱 정보</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">버전:</span>
+                        <span class="info-value" id="appVersion">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">플랫폼:</span>
+                        <span class="info-value" id="appPlatform">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 데이터 관리 -->
+            <div class="settings-group">
+                <h3>데이터 관리</h3>
+                <p class="settings-description">
+                    저장된 덱 빌더 데이터와 설정을 초기화합니다.
+                </p>
+                <button onclick="clearAllData()" class="settings-btn danger">모든 데이터 삭제</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>
